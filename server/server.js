@@ -19,15 +19,28 @@ const server = createServer(app);
 // Connect to database
 connectDB();
 
+// Allowed origins
+const allowedOrigins = process.env.NODE_ENV === 'production'
+  ? ['https://joblink360-yarx.vercel.app']
+  : ['http://localhost:3000'];
+
 // Middleware
-app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://joblink360-yarx.vercel.app'] 
-    : ['http://localhost:3000'],
-  credentials: true
-}));
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Handle preflight requests for all routes
+app.options('*', cors({
+  origin: allowedOrigins,
+  credentials: true,
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -40,9 +53,7 @@ app.use('/api/admin', adminRoutes);
 // Socket.io setup
 const io = new Server(server, {
   cors: {
-    origin: process.env.NODE_ENV === 'production' 
-      ? ['https://joblink360-yarx.vercel.app'] 
-      : ['http://localhost:3000'],
+    origin: allowedOrigins,
     credentials: true
   }
 });
@@ -81,8 +92,8 @@ io.on('connection', (socket) => {
   });
 });
 
+// Start server
 const PORT = process.env.PORT || 5000;
-
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
