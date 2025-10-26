@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://joblink360-backend.onrender.com/api'
+  ? 'https://joblink360.onrender.com/api'
   : 'http://localhost:5000/api';
 
 const api = axios.create({
