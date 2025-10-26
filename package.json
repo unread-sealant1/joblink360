@@ -1,0 +1,29 @@
+{
+  "name": "joblink360",
+  "version": "1.0.0",
+  "description": "JobLink360 - Professional Networking Platform",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "install-server": "cd server && npm install",
+    "install-client": "cd client && npm install",
+    "install-all": "npm run install-server && npm run install-client",
+    "seed": "cd server && npm run seed"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "networking",
+    "jobs",
+    "linkedin",
+    "professional",
+    "react",
+    "nodejs"
+  ],
+  "author": "JobLink360 Team",
+  "license": "MIT"
+}
