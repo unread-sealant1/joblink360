@@ -1,8 +1,10 @@
 import axios from 'axios';
 
-const API_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://joblink360.onrender.com/api'
-  : 'http://localhost:5000/api';
+// Base URL depending on environment
+const API_URL = process.env.REACT_APP_API_URL || 
+  (process.env.NODE_ENV === 'production' 
+    ? 'https://joblink360.onrender.com/api' 
+    : 'http://localhost:5000/api');
 
 const api = axios.create({
   baseURL: API_URL,
@@ -12,9 +14,10 @@ const api = axios.create({
   },
 });
 
+// Global interceptor for 401 Unauthorized
 api.interceptors.response.use(
-  (response) => response,
-  (error) => {
+  response => response,
+  error => {
     if (error.response?.status === 401) {
       window.location.href = '/login';
     }
