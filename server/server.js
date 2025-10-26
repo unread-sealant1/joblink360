@@ -22,7 +22,7 @@ connectDB();
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-frontend-domain.vercel.app'] 
+    ? ['https://joblink360-yarx.vercel.app'] 
     : ['http://localhost:3000'],
   credentials: true
 }));
