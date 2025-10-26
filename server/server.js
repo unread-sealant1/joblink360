@@ -19,22 +19,20 @@ const server = createServer(app);
 // Connect to MongoDB
 connectDB();
 
-// Use FRONTEND_URL env variable for flexibility
-const allowedOrigins = process.env.FRONTEND_URL
-  ? [process.env.FRONTEND_URL]
-  : ['http://localhost:3000'];
+// Allowed origins for CORS
+const allowedOrigins = [process.env.FRONTEND_URL || 'http://localhost:3000'];
 
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
   origin: allowedOrigins,
-  credentials: true,
+  credentials: true,        // allow cookies
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Preflight handling
+// Handle preflight requests
 app.options('*', cors({
   origin: allowedOrigins,
   credentials: true,
