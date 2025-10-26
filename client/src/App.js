@@ -18,6 +18,7 @@ import Messages from './pages/Messages';
 import Profile from './pages/Profile';
 import JobDetail from './pages/JobDetail';
 import MyJobs from './pages/MyJobs';
+import Dashboard from './pages/Dashboard';
 import ForgotPassword from './pages/ForgotPassword';
 import Admin from './pages/Admin';
 
@@ -38,6 +39,12 @@ function App() {
               <Route path="/feed" element={
                 <ProtectedRoute>
                   <Feed />
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/dashboard" element={
+                <ProtectedRoute>
+                  <Dashboard />
                 </ProtectedRoute>
               } />
               

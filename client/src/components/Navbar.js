@@ -10,7 +10,8 @@ import {
   UserCircleIcon,
   ArrowRightOnRectangleIcon,
   SunIcon,
-  MoonIcon
+  MoonIcon,
+  ChartBarIcon
 } from '@heroicons/react/24/outline';
 
 const Navbar = () => {
@@ -31,9 +32,14 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
+            <Link to="/dashboard" className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors px-3 py-2 rounded-lg hover:bg-primary-50 dark:hover:bg-gray-800">
+              <ChartBarIcon className="h-5 w-5" />
+              <span className="font-medium">Dashboard</span>
+            </Link>
+            
             <Link to="/feed" className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors px-3 py-2 rounded-lg hover:bg-primary-50 dark:hover:bg-gray-800">
               <HomeIcon className="h-5 w-5" />
-              <span className="font-medium">Home</span>
+              <span className="font-medium">Feed</span>
             </Link>
             
             <Link to="/jobs" className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors px-3 py-2 rounded-lg hover:bg-primary-50 dark:hover:bg-gray-800">
@@ -94,6 +100,9 @@ const Navbar = () => {
             
             {/* Mobile Navigation */}
             <div className="md:hidden flex items-center space-x-1">
+              <Link to="/dashboard" className="p-3 text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-gray-800 rounded-lg transition-colors">
+                <ChartBarIcon className="h-6 w-6" />
+              </Link>
               <Link to="/feed" className="p-3 text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-gray-800 rounded-lg transition-colors">
                 <HomeIcon className="h-6 w-6" />
               </Link>

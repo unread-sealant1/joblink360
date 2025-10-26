@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../api/api';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
@@ -11,6 +12,7 @@ const Network = () => {
   const [activeTab, setActiveTab] = useState('discover');
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -201,9 +203,12 @@ const Network = () => {
                     {person.name.charAt(0).toUpperCase()}
                   </span>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">{person.name}</h3>
-                <p className="text-gray-600 mb-2">{person.title || 'Professional'}</p>
-                <button className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">{person.name}</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-2">{person.title || 'Professional'}</p>
+                <button 
+                  onClick={() => navigate(`/messages?user=${person._id}`)}
+                  className="bg-primary-600 hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600 text-white px-4 py-2 rounded-lg transition-colors"
+                >
                   Message
                 </button>
               </div>
