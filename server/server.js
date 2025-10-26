@@ -16,12 +16,12 @@ const adminRoutes = require('./routes/adminRoutes');
 const app = express();
 const server = createServer(app);
 
-// Connect to database
+// Connect to MongoDB
 connectDB();
 
-// Allowed origins
-const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? ['https://joblink360-yarx.vercel.app']
+// Use FRONTEND_URL env variable for flexibility
+const allowedOrigins = process.env.FRONTEND_URL
+  ? [process.env.FRONTEND_URL]
   : ['http://localhost:3000'];
 
 // Middleware
@@ -30,15 +30,15 @@ app.use(cookieParser());
 app.use(cors({
   origin: allowedOrigins,
   credentials: true,
-  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Handle preflight requests for all routes
+// Preflight handling
 app.options('*', cors({
   origin: allowedOrigins,
   credentials: true,
-  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
@@ -64,7 +64,7 @@ io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
   socket.on('join', (userId) => {
-    socket.join(userId);
+    if (userId) socket.join(userId);
     console.log(`User ${userId} joined room`);
   });
 
@@ -90,6 +90,12 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
   });
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: err.message });
 });
 
 // Start server
