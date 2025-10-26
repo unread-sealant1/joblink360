@@ -106,7 +106,7 @@ const Messages = () => {
       <div className="bg-white rounded-lg shadow-lg overflow-hidden" style={{ height: '600px' }}>
         <div className="flex h-full">
           {/* Conversations List */}
-          <div className="w-1/3 border-r border-gray-200">
+          <div className="w-full sm:w-1/3 border-r border-gray-200 {selectedConversation ? 'hidden sm:block' : ''}">
             <div className="p-4 border-b border-gray-200">
               <h2 className="text-lg font-semibold text-gray-900">Messages</h2>
             </div>
@@ -153,7 +153,7 @@ const Messages = () => {
           </div>
 
           {/* Messages Area */}
-          <div className="flex-1 flex flex-col">
+          <div className="flex-1 flex flex-col {selectedConversation ? 'block' : 'hidden sm:flex'}">
             {selectedConversation ? (
               <>
                 {/* Chat Header */}

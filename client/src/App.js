@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 
 import { AuthProvider } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
+import { ThemeProvider } from './context/ThemeContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 
@@ -22,10 +23,11 @@ import Admin from './pages/Admin';
 
 function App() {
   return (
-    <AuthProvider>
-      <SocketProvider>
-        <Router>
-          <div className="min-h-screen bg-gray-50">
+    <ThemeProvider>
+      <AuthProvider>
+        <SocketProvider>
+          <Router>
+          <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
             <Navbar />
             <Routes>
               <Route path="/" element={<Landing />} />
@@ -95,9 +97,10 @@ function App() {
               }}
             />
           </div>
-        </Router>
-      </SocketProvider>
-    </AuthProvider>
+          </Router>
+        </SocketProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 
