@@ -12,6 +12,7 @@ const jobRoutes = require('./routes/jobRoutes');
 const connectionRoutes = require('./routes/connectionRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const Message = require('./models/Message');
 
 const app = express();
 const server = createServer(app);
@@ -19,26 +20,31 @@ const server = createServer(app);
 // Connect to MongoDB
 connectDB();
 
-// Allowed origins for CORS
-const allowedOrigins = [process.env.FRONTEND_URL || 'http://localhost:3000'];
+// ✅ Use a single allowed origin string
+const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:3000';
 
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: allowedOrigins,
-  credentials: true,        // allow cookies
+  origin: allowedOrigin,
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Handle preflight requests
 app.options('*', cors({
-  origin: allowedOrigins,
+  origin: allowedOrigin,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Health check route (optional but helpful)
+app.get('/', (req, res) => {
+  res.send('JobLink360 backend is running');
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -48,15 +54,13 @@ app.use('/api/connections', connectionRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Socket.io setup
+// ✅ Socket.IO setup with correct CORS
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: allowedOrigin,
     credentials: true
   }
 });
-
-const Message = require('./models/Message');
 
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
