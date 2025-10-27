@@ -23,9 +23,12 @@ export const AuthProvider = ({ children }) => {
     loading: false
   });
 
+  // ✅ Login with credentials
   const login = async (email, password) => {
     try {
-      const response = await api.post('/auth/login', { email, password });
+      const response = await api.post('/auth/login', { email, password }, {
+        withCredentials: true
+      });
       dispatch({ type: 'LOGIN_SUCCESS', payload: response.data });
       return response.data;
     } catch (error) {
@@ -33,9 +36,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // ✅ Register with credentials
   const register = async (name, email, password) => {
     try {
-      const response = await api.post('/auth/register', { name, email, password });
+      const response = await api.post('/auth/register', { name, email, password }, {
+        withCredentials: true
+      });
       dispatch({ type: 'LOGIN_SUCCESS', payload: response.data });
       return response.data;
     } catch (error) {
@@ -43,15 +49,34 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // ✅ Logout with credentials
   const logout = async () => {
     try {
-      await api.post('/auth/logout');
+      await api.post('/auth/logout', {}, {
+        withCredentials: true
+      });
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
       dispatch({ type: 'LOGOUT' });
     }
   };
+
+  // ✅ Session check on page load
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const response = await api.get('/auth/me', {
+          withCredentials: true
+        });
+        dispatch({ type: 'LOGIN_SUCCESS', payload: response.data });
+      } catch {
+        dispatch({ type: 'LOGOUT' });
+      }
+    };
+
+    checkSession();
+  }, []);
 
   return (
     <AuthContext.Provider value={{
