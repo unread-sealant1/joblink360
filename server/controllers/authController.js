@@ -2,6 +2,7 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const sendResetEmail = require('../utils/sendResetEmail');
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
@@ -22,13 +23,8 @@ const register = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-<<<<<<< HEAD
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-      maxAge: 30 * 24 * 60 * 60 * 1000
-=======
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
->>>>>>> 37c466411682a9c1c96334b4838a8fba680ff211
     });
 
     res.status(201).json({
@@ -56,13 +52,8 @@ const login = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-<<<<<<< HEAD
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-      maxAge: 30 * 24 * 60 * 60 * 1000
-=======
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
->>>>>>> 37c466411682a9c1c96334b4838a8fba680ff211
     });
 
     res.json({
@@ -94,8 +85,6 @@ const getMe = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-const sendResetEmail = require('../utils/sendResetEmail');
 
 const forgotPassword = async (req, res) => {
   try {
