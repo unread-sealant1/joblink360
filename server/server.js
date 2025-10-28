@@ -23,24 +23,15 @@ connectDB();
 // ✅ Use a single allowed origin string
 const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:3000';
 
-// Middleware
-<<<<<<< HEAD
-app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? [process.env.FRONTEND_URL || 'https://joblink360.vercel.app'] 
-    : ['http://localhost:3000'],
-  credentials: true
-}));
-=======
->>>>>>> 37c466411682a9c1c96334b4838a8fba680ff211
-app.use(express.json());
-app.use(cookieParser());
+// Middleware - REMOVED CONFLICT MARKERS
 app.use(cors({
   origin: allowedOrigin,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+app.use(express.json());
+app.use(cookieParser());
 
 // Handle preflight requests
 app.options('*', cors({
@@ -66,13 +57,7 @@ app.use('/api/admin', adminRoutes);
 // ✅ Socket.IO setup with correct CORS
 const io = new Server(server, {
   cors: {
-<<<<<<< HEAD
-    origin: process.env.NODE_ENV === 'production' 
-      ? [process.env.FRONTEND_URL || 'https://joblink360.vercel.app'] 
-      : ['http://localhost:3000'],
-=======
     origin: allowedOrigin,
->>>>>>> 37c466411682a9c1c96334b4838a8fba680ff211
     credentials: true
   }
 });
