@@ -22,7 +22,7 @@ connectDB();
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-frontend-domain.vercel.app'] 
+    ? [process.env.FRONTEND_URL || 'https://joblink360.vercel.app'] 
     : ['http://localhost:3000'],
   credentials: true
 }));
@@ -41,7 +41,7 @@ app.use('/api/admin', adminRoutes);
 const io = new Server(server, {
   cors: {
     origin: process.env.NODE_ENV === 'production' 
-      ? ['https://your-frontend-domain.vercel.app'] 
+      ? [process.env.FRONTEND_URL || 'https://joblink360.vercel.app'] 
       : ['http://localhost:3000'],
     credentials: true
   }

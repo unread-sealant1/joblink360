@@ -25,5 +25,8 @@
     "nodejs"
   ],
   "author": "JobLink360 Team",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5"
+  }
 }
