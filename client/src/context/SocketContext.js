@@ -11,10 +11,15 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (user) {
-      const newSocket = io(process.env.NODE_ENV === 'production' 
-        ? 'https://joblink360-backend.onrender.com' 
-        : 'http://localhost:5000'
-      );
+      const backendURL =
+        process.env.NODE_ENV === 'production'
+          ? 'https://joblink360.onrender.com' // <- corrected URL
+          : 'http://localhost:5000';
+
+      const newSocket = io(backendURL, {
+        transports: ['websocket', 'polling'],
+        withCredentials: true,
+      });
 
       newSocket.emit('join', user._id);
       setSocket(newSocket);
